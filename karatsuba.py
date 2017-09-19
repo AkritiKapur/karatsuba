@@ -1,12 +1,10 @@
+import sys
 import math
+import baseconvert
 
 
-def convert_base():
-    pass
-
-
-def reconvert_base():
-    pass
+def convert_base(number, input_base, output_base):
+    return baseconvert.base(number, input_base, output_base, string=True)
 
 
 def karatsuba(num1, num2):
@@ -23,16 +21,16 @@ def karatsuba(num1, num2):
 
     power = max(len(str(num1)), len(str(num2)))
 
-    power = power/2
+    power = int(power/2)
 
     # Numbers are split in the form,
     # `num1_1 * 10^power + num1_2` and
     # `num2_1 * 10^power + num2_2`
 
-    num1_1 = int(num1) / int(math.pow(10, power))
-    num2_1 = int(num2) / int(math.pow(10, power))
-    num1_2 = int(num1) % int(math.pow(10, power))
-    num2_2 = int(num2) % int(math.pow(10, power))
+    num1_1 = int((num1) / (math.pow(10, power)))
+    num2_1 = int((num2) / (math.pow(10, power)))
+    num1_2 = int((num1) % (math.pow(10, power)))
+    num2_2 = int((num2) % (math.pow(10, power)))
 
     # calculates the product of
     # the two split terms of the original numbers and
@@ -45,4 +43,12 @@ def karatsuba(num1, num2):
 
 
 if __name__ == "__main__":
-    print karatsuba(245, 789)
+    if len(sys.argv) != 4:
+        print("please enter the required arguments: num1, num2, base (number)")
+        sys.exit()
+
+    else:
+        num1 = int(convert_base(str(sys.argv[1]), int(sys.argv[3]), 10))
+        num2 = int(convert_base(str(sys.argv[2]), int(sys.argv[3]), 10))
+        product = karatsuba(num1, num2)
+        print(int(convert_base(str(product), 10, int(sys.argv[3]))))
